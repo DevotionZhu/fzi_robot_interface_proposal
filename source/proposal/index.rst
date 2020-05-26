@@ -26,6 +26,12 @@ would be fairly similar to the `trajectory_msgs/JointTrajectoryPoint
 the joint version contains joint efforts, we propose to also include Cartesian wrenches to the
 Cartesian point definition, although this is only introduced in one of the existing interfaces.
 
+A jerk is added to the trajectory point definition, as well, so controllers executing a Cartesian
+trajectory can provide a smoother trajectory execution. As there is currently no message available
+to encode this, a custom message will be provided initially. Essentially, it would be a copy of
+``geometry_msgs/Accel`` but reusing this would be semantically incorrect. There is also an `open
+discussion <https://github.com/ros/common_msgs/issues/137>`_ on adding Jerks to ``geometry_msgs``
+which would be the preferable solution.
 
 .. code-block:: yaml
    :caption: CartesianTrajectoryPoint.msg
@@ -34,6 +40,7 @@ Cartesian point definition, although this is only introduced in one of the exist
    geometry_msgs/Pose pose
    geometry_msgs/Twist twist
    geometry_msgs/Accel acceleration
+   <to_be_determined_msgs>/Jerk jerk
    geometry_msgs/Wrench wrench
 
 
@@ -172,6 +179,7 @@ As elaborated in the previous section we propose the following action interface
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
+       <to_be_determined_msgs>/Jerk jerk
        geometry_msgs/Wrench wrench
      string tcp_frame
      string[] posture_joint_names
@@ -213,18 +221,21 @@ As elaborated in the previous section we propose the following action interface
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
+       <to_be_determined_msgs>/Jerk jerk
        geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint actual
        duration time_from_start
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
+       <to_be_determined_msgs>/Jerk jerk
        geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint error
        duration time_from_start
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
+       <to_be_determined_msgs>/Jerk jerk
        geometry_msgs/Wrench wrench
 
 .. note::
